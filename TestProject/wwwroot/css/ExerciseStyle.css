@@ -1,0 +1,88 @@
+﻿.exercise-block {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    width: 300px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+    .exercise-block:hover {
+        background-color: #e0e0e0;
+    }
+
+.exercise-details {
+    display: none;
+    padding: 10px;
+}
+
+.exercise-block.active .exercise-details {
+    display: block;
+}
+
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 80%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.pagination-buttons {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.solved {
+    background-color: green;
+}
+
+.popup button,
+.popup input[type="submit"], .popup input[type="submit"] {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .popup button:hover,
+    .popup input[type="submit"]:hover {
+        background-color: #276db8;
+    }
+
+.popup input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup form {
+    margin-top: 20px;
+}

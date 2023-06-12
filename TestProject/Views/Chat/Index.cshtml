@@ -1,0 +1,29 @@
+﻿<link href="~/css/ChatStyle.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div id="chat-container">
+    <div id="chat-header">
+        Чат
+    </div>
+
+    <div id="chat-body">
+        <p class="assistant-message">
+        </p>
+    </div>
+
+    <div id="user-input">
+        <input type="text" id="message-input" placeholder="Введите сообщение..." />
+        <div style="display: flex; justify-content:space-between; width: 100%;">
+            <button id="send-button">Отправить</button>
+            <button id="reset-button">Сбросить</button>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            GetChatMessages();
+        });
+    </script>
+</div>
+
+@section Scripts {
+    <script src="~/js/ChatScript.js"></script>
+}
