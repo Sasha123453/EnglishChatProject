@@ -24,9 +24,8 @@ public class ChatController : Controller
         return View();
     }
     [HttpGet]
-    [ActionName("IndexById")]
     [Authorize]
-    public async Task<IActionResult> Index(int id)
+    public async Task<IActionResult> IndexById(int id)
     {
         Exercise exercise = await _context.Exercises.FirstAsync(x => x.Id == id);
         string systemMessage = $"Ты - чатбот на сайте для изучения английского языка. Пользователь с ником ${User.Identity.Name} обратился к тебе за помощью, " +
