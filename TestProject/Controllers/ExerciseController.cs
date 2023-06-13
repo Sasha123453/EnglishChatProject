@@ -11,13 +11,11 @@ public class ExerciseController : Controller
 {
     private readonly ApplicationContext _context;
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
 
     public ExerciseController(ApplicationContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
-        _roleManager = roleManager;
     }
     [Authorize]
     public async Task<IActionResult> UserExercise(int page = 1)
