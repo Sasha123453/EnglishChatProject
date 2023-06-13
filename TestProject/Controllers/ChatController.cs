@@ -105,7 +105,7 @@ public class ChatController : Controller
             }
             else
             {
-                return StatusCode(500, "");
+                return StatusCode(400, "");
             }
         }
         catch (Exception ex)

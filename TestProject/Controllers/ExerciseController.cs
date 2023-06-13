@@ -12,7 +12,7 @@ public class ExerciseController : Controller
     private readonly ApplicationContext _context;
     private readonly UserManager<User> _userManager;
 
-    public ExerciseController(ApplicationContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public ExerciseController(ApplicationContext context, UserManager<User> userManager)
     {
         _context = context;
         _userManager = userManager;
@@ -63,7 +63,6 @@ public class ExerciseController : Controller
             var user = await _userManager.FindByIdAsync(userId);
             bool checkIfSolved = await _context.ExerciseSolutions.AnyAsync(x => x.ExerciseId == checkExercise.Id && x.UserId == userId);
             if (checkExercise.Solution == userInput && !checkIfSolved)
-
             {
                 ExerciseSolution userSolution = new ExerciseSolution(userId, checkExercise.Id);
                 await _context.ExerciseSolutions.AddAsync(userSolution);
@@ -74,11 +73,11 @@ public class ExerciseController : Controller
             }
             else if (checkIfSolved)
             {
-                return StatusCode(500, "Эта задача уже решена");
+                return StatusCode(409, "Эта задача уже решена");
             }
             else
             {
-                return StatusCode(500, "Неверный ответ");
+                return StatusCode(400, "Неверный ответ");
             }
         }
         catch (Exception ex)
