@@ -70,7 +70,7 @@ public class ExerciseController : Controller
                 user.Score += checkExercise.Difficulty;
                 user.LatestExerciseId = checkExercise.Id;
                 await _context.SaveChangesAsync();
-                return Json(new { success = true, message = "Верный ответ", checkIfSolved });
+                return Json(new { success = true, message = "Верный ответ"});
             }
             else if (checkIfSolved)
             {
@@ -85,20 +85,6 @@ public class ExerciseController : Controller
         {
             string errorMessage = "An error occurred while processing the chat request. Details: " + ex.Message;
             return Json(new { success = false, error = errorMessage });
-        }
-    }
-    [HttpGet]
-    public async Task<IActionResult> IsExerciseSolved(int exerciseId)
-    {
-        try
-        {
-            string userId = _userManager.GetUserId(User);
-            bool isSolved = await _context.ExerciseSolutions.AnyAsync(solution => solution.UserId == userId && solution.ExerciseId == exerciseId);
-            return Json(new { isSolved });
-        }
-        catch (Exception ex)
-        {
-            return Json(new { error = ex.Message });
         }
     }
 
