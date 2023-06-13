@@ -23,13 +23,14 @@ public class ExerciseController : Controller
     public async Task<IActionResult> UserExercise(int page = 1)
     {
         int pageSize = 10;
-        List<Exercise> exercises = await GetExercisesFromDataSource();
+        string userId = _userManager.GetUserId(User);
+        List<ExerciseWithSolutionStatus> exercises = await GetExercisesFromDataSource(userId);
 
-        IPagedList<Exercise> pagedExercises = exercises.ToPagedList(page, pageSize);
+        IPagedList<ExerciseWithSolutionStatus> pagedExercises = exercises.ToPagedList(page, pageSize);
 
-        var viewModel = new ExercisesViewModel<Exercise>
+        var viewModel = new ExercisesViewModel<ExerciseWithSolutionStatus>
         {
-            Exercises = pagedExercises,
+            ExercisesWithSolutionStatus = pagedExercises,
             CurrentPage = pagedExercises.PageNumber,
             TotalPages = pagedExercises.PageCount
         };
@@ -37,10 +38,23 @@ public class ExerciseController : Controller
         return View(viewModel);
     }
 
-    private async Task<List<Exercise>> GetExercisesFromDataSource()
+    public async Task<List<ExerciseWithSolutionStatus>> GetExercisesFromDataSource(string userId)
     {
-        return await _context.Exercises.ToListAsync();
+        var result = await (from exercise in _context.Exercises
+                            join solution in _context.ExerciseSolutions
+                            on new { ExerciseId = exercise.Id, UserId = userId }
+                            equals new { ExerciseId = solution.ExerciseId, UserId = solution.UserId }
+                            into solutionGroup
+                            from solutionOrNull in solutionGroup.DefaultIfEmpty()
+                            select new ExerciseWithSolutionStatus
+                            {
+                                Exercise = exercise,
+                                HasSolution = solutionOrNull != null
+                            }).ToListAsync();
+
+        return result;
     }
+
     [HttpPost]
     public async Task<IActionResult> CheckAnswer(string userInput, string exerciseModelId)
     {

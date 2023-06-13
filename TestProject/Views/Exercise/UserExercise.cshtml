@@ -1,25 +1,25 @@
-﻿@model ExercisesViewModel<Exercise>
+﻿@model ExercisesViewModel<ExerciseWithSolutionStatus>
 
 <h2>Упражнения</h2>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="~/css/ExerciseStyle.css" rel="stylesheet">
 <div>
-    @foreach (var excercise in Model.Exercises)
+    @foreach (var exerciseWithSolution in Model.ExercisesWithSolutionStatus)
     {
-        <div class="exercise-block" data-exercise-model-id="@excercise.Id" id="@excercise.Id" onclick="openPopup(this)">
+        var className = "exercise-block";
+        if (exerciseWithSolution.HasSolution)
+        {
+            className += " solved";
+        }
+        <div class="@className" data-exercise-model-id="@exerciseWithSolution.Exercise.Id" id="@exerciseWithSolution.Exercise.Id" onclick="openPopup(this)">
             <div style="display: flex;">
-                <p class="exercise-number">@excercise.Section</p>.<p class="exercise-section">@excercise.Number</p>
+                <p class="exercise-number">@exerciseWithSolution.Exercise.Section</p>.<p class="exercise-section">@exerciseWithSolution.Exercise.Number</p>
             </div>
-            <h3 class="exercise-name">@excercise.Name</h3>
+            <h3 class="exercise-name">@exerciseWithSolution.Exercise.Name</h3>
             <div class="exercise-details" style="display: none;">
-                <p class="exercise-description">@excercise.Description</p>
+                <p class="exercise-description">@exerciseWithSolution.Exercise.Description</p>
             </div>
         </div>
-        <script>
-            $(document).ready(function () {
-                IsExerciseSolved('@excercise.Id');
-            });
-        </script>
     }
 </div>
 
