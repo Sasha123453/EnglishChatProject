@@ -9,7 +9,7 @@ using TestProject.Models;
 public class ChatController : Controller
 {
     private readonly ApplicationContext _context;
-    static OpenAIAPI api = new OpenAIAPI(new APIAuthentication("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"));
+    static OpenAIAPI api = new OpenAIAPI(new APIAuthentication("Your_key"));
     static ConcurrentDictionary<string, OpenAI_API.Chat.Conversation> userConversations = new ConcurrentDictionary<string, OpenAI_API.Chat.Conversation>();
     public ChatController(ApplicationContext context)
     {
