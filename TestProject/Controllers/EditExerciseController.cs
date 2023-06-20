@@ -56,10 +56,11 @@ namespace TestProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Difficulty,Solution,Type,Section,Number,NoteForBot")] Exercise exercise)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Difficulty,Solution,NormalizedSolution,Type,Section,Number,NoteForBot")] Exercise exercise)
         {
             if (ModelState.IsValid)
             {
+                exercise.NormalizedSolution = exercise.Solution.ToUpper();
                 _context.Add(exercise);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,17 +89,17 @@ namespace TestProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Difficulty,Solution,Type,Section,Number,NoteForBot")] Exercise exercise)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Difficulty,Solution,NormalizedSolution,Type,Section,Number,NoteForBot")] Exercise exercise)
         {
             if (id != exercise.Id)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    exercise.NormalizedSolution = exercise.Solution.ToUpper();
                     _context.Update(exercise);
                     await _context.SaveChangesAsync();
                 }

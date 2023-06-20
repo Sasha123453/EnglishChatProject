@@ -62,12 +62,11 @@ public class ExerciseController : Controller
             string userId =  _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
             bool checkIfSolved = await _context.ExerciseSolutions.AnyAsync(x => x.ExerciseId == checkExercise.Id && x.UserId == userId);
-            if (checkExercise.Solution == userInput && !checkIfSolved)
+            if (checkExercise.NormalizedSolution == userInput.ToUpper() && !checkIfSolved)
             {
                 ExerciseSolution userSolution = new ExerciseSolution(userId, checkExercise.Id);
                 await _context.ExerciseSolutions.AddAsync(userSolution);
                 user.Score += checkExercise.Difficulty;
-                user.LatestExerciseId = checkExercise.Id;
                 await _context.SaveChangesAsync();
                 return Json(new { success = true, message = "Верный ответ"});
             }

@@ -11,7 +11,5 @@ namespace TestProject.Areas.Identity.Data;
 public class User : IdentityUser
 {
     public int Score { get; set; }
-    public virtual Exercise LatestExercise { get; set; }
-    public int? LatestExerciseId { get; set; }
 }
 

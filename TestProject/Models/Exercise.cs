@@ -8,6 +8,7 @@ namespace TestProject.Models
         public string Description { get; set; }
         public int Difficulty { get; set; }
         public string Solution { get; set; }
+        public string NormalizedSolution { get; set; }
         public string Type { get; set; }
         public int Section { get; set; }
         public int Number { get; set; }

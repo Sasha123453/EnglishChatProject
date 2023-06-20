@@ -9,7 +9,7 @@ using TestProject.Models;
 public class ChatController : Controller
 {
     private readonly ApplicationContext _context;
-    static OpenAIAPI api = new OpenAIAPI(new APIAuthentication("Your_key"));
+    static OpenAIAPI api = new OpenAIAPI(new APIAuthentication("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"));
     static ConcurrentDictionary<string, OpenAI_API.Chat.Conversation> userConversations = new ConcurrentDictionary<string, OpenAI_API.Chat.Conversation>();
     public ChatController(ApplicationContext context)
     {
@@ -59,7 +59,12 @@ public class ChatController : Controller
     }
     private async Task<string> GenerateChatResponse(string userInput)
     {
-        userConversations.TryGetValue(User.Identity.Name, out var chat);
+        if (!userConversations.TryGetValue(User.Identity.Name, out var chat))
+        {
+            chat = api.Chat.CreateConversation();
+            chat.AppendSystemMessage($"Ты - чатбот на сайте для изучения английского языка. Пользователь с ником ${User.Identity.Name} обратился к тебе за помощью, помоги ему");
+            userConversations.GetOrAdd(User.Identity.Name, chat);
+        }
         chat.AppendUserInput(userInput);
         string response = await chat.GetResponseFromChatbotAsync();
         return response;
